@@ -1,14 +1,25 @@
 # Smart-Guard
 import board, busio, time, array, audiobusio, math, pwmio, analogio, adafruit_ssd1306, neopixel
+
+# --- 1. Hardware Setup ---
 i2c = busio.I2C(board.GP5, board.GP4)
 oled = adafruit_ssd1306.SSD1306_I2C(128, 64, i2c)
+
+# PDM Mic (GP3=Clock, GP2=Data)
 mic = audiobusio.PDMIn(board.GP3, board.GP2, sample_rate=16000, bit_depth=16)
 samples = array.array('H', [0] * 1024)
+
+# Potentiometer (GP28)
 pot = analogio.AnalogIn(board.GP28)
+
+#RGB LED (GP14)
 num_pixels = 5
 pixel_pin = board.GP14
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness = 0.2)
+
+# Buzzer (GP21)
 buzzer = pwmio.PWMOut(board.GP21, variable_frequency=True)
+
 def log10(x):
     return math.log(x) / math.log(10)
 
@@ -42,6 +53,8 @@ def trigger_alarm():
     buzzer.duty_cycle = 0
     oled.invert(False)
     oled.show()
+
+# --- 2. Main Loop ---
 print("System Armed. Adjust Potentiometer for sensitivity.")
 
 while True:
@@ -79,4 +92,4 @@ while True:
     oled.fill_rect(10, 58, bar_width, 4, 1)
     
     oled.show()
-    time.sleep(0.05)  w
+    time.sleep(0.05)
