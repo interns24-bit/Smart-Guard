@@ -5,7 +5,7 @@ i2c = busio.I2C(board.GP5, board.GP4)
 oled = adafruit_ssd1306.SSD1306_I2C(128, 64, i2c)
 
 # PDM Mic (GP3=Clock, GP2=Data)
-mic = audiobusio.PDMIn(board.GP3, board.GP2, sample_rate=16000, bit_depth=16)
+mic = audiobusio.PDMIn(board.GP3, board.GP2, sample_rate=32000, bit_depth=16)
 samples = array.array('H', [0] * 1024)
 
 # Potentiometer (GP28)
